@@ -50,6 +50,17 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Resource Not Found")
 
+    def test_get_pagginated_questions(self):
+        response = self.client().get('/questions')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(len(data['questions']))
+        self.assertTrue(data['total_questions'])
+        self.assertTrue(data['current_category'])
+        self.assertTrue(len(data['categories']))
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
