@@ -50,7 +50,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Resource Not Found")
 
-    def test_get_pagginated_questions(self):
+    def test_get_paginated_questions(self):
         response = self.client().get('/questions')
         data = json.loads(response.data)
 
