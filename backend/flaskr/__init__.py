@@ -37,6 +37,11 @@ def create_app(test_config=None):
   def get_categories():
     # Query category data and return as json payload
     categories = Category.query.all()
+
+    # Return 404 if query returns no data
+    if not categories:
+      abort(404)
+    
     formatted_categories = {category.id: category.type for category in categories}
     
     return jsonify({
