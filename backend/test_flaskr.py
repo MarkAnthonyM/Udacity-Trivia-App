@@ -42,13 +42,13 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['total_categories'])
         self.assertTrue(len(data['categories']))
 
-    def test_404_get_categories(self):
-        response = self.client().get('/categories')
-        data = json.loads(response.data)
+    # def test_404_get_categories(self):
+    #     response = self.client().get('/categories')
+    #     data = json.loads(response.data)
 
-        self.assertEqual(response.status_code, 404)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], "Resource Not Found")
+    #     self.assertEqual(response.status_code, 404)
+    #     self.assertEqual(data['success'], False)
+    #     self.assertEqual(data['message'], "Resource Not Found")
 
     def test_get_paginated_questions(self):
         response = self.client().get('/questions')
@@ -58,7 +58,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(len(data['questions']))
         self.assertTrue(data['total_questions'])
-        self.assertTrue(data['current_category'])
+        self.assertIsNone(data['current_category'])
         self.assertTrue(len(data['categories']))
 
 
