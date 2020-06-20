@@ -35,6 +35,7 @@ def create_app(test_config=None):
   '''
   @app.route('/categories')
   def get_categories():
+    # Query category data and return as json payload
     categories = Category.query.all()
     formatted_categories = {category.id: category.type for category in categories}
     
@@ -58,12 +59,14 @@ def create_app(test_config=None):
   '''
   @app.route('/questions')
   def get_paginated_questions():
+    # Query question data and paginate/format
     page = request.args.get('page', 1, type=int)
     questions = Question.query.all()
     formatted_questions = [question.format() for question in questions]
     start = (page - 1) * 10
     end = start + 10
 
+    # Query category data and format
     categories = Category.query.all()
     formatted_categories = {Category.id: category.type for category in categories}
 
