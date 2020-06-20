@@ -68,13 +68,14 @@ def create_app(test_config=None):
 
     # Query category data and format
     categories = Category.query.all()
-    formatted_categories = {Category.id: category.type for category in categories}
+    formatted_categories = {category.id: category.type for category in categories}
 
     return jsonify({
       'success': True,
       'questions': formatted_questions[start:end],
       'total_questions': len(questions),
-      'categories': categories,
+      'categories': formatted_categories,
+      'current_category': None
     })
 
   '''
