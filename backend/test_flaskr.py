@@ -86,7 +86,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['total_questions'])
         self.assertTrue(len(data['questions']))
 
-    def test_422_invalid_create_question_post(self):
+    def test_405_invalid_create_question_post(self):
         response = self.client().post('/questions/100', json=self.new_question)
         data = json.loads(response.data)
 
