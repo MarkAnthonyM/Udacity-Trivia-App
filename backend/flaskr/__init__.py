@@ -116,7 +116,7 @@ def create_app(test_config=None):
        'deleted_question': question_id,
        'questions': current_questions,
        'success': True,
-       'total_question': len(questions),
+       'total_questions': len(questions),
     })
       
   '''
