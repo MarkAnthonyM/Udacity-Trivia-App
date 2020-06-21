@@ -26,7 +26,6 @@ class TriviaTestCase(unittest.TestCase):
             self.db.create_all()
 
         self.new_question = {
-            'id': 13,
             'answer': "Lake Victoria",
             'category': 3,
             'difficulty': 2,
@@ -84,18 +83,21 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created_question'])
-        self.assertTrue(len(data['total_questions']))
+        self.assertTrue(data['total_questions'])
         self.assertTrue(len(data['questions']))
 
     def test_delete_question(self):
-        response = self.client().delete('/questions/13')
+        last_question = Question.query.order_by(Question.id.desc()).first()
+        test_url = '/questions/%s' % last_question.id
+        
+        response = self.client().delete(test_url)
         data = json.loads(response.data)
 
-        question = Question.query.filter(Question.id == 13).one_or_none()
+        question = Question.query.filter(Question.id == last_question.id).one_or_none()
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted'], 13)
+        self.assertEqual(data['deleted_question'], last_question.id)
         self.assertTrue(data['total_questions'])
         self.assertTrue(len(data['questions']))
         self.assertIsNone(question)
@@ -106,7 +108,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], "Resource Not Foound")
+        self.assertEqual(data['message'], "Resource Not Found")
 
 
 # Make the tests conveniently executable
