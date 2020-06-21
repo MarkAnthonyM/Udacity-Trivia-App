@@ -86,33 +86,29 @@ def create_app(test_config=None):
   '''
   @app.route('/questions/<int:question_id>', methods=['DELETE'])
   def delete_question(question_id):
-    try:
-      question = Question.query.filter(Question.id == question_id).one_or_none()
-      
-      # Check if question exist
-      if question is None:
-        abort(404)
-
-      question.delete()
-      questions = Question.query.order_by(Question.id).all()
-      formatted_questions = [question.format() for question in questions]
-
-      page = request.args.get('page', 1, type=int)
-      start = (page - 1) * 10
-      end = start + 10
-
-      current_questions = formatted_questions[start:end]
-
-      return jsonify({
-        'deleted_question': question_id,
-        'questions': current_questions,
-        'success': True,
-        'total_question': len(questions),
-      })
+    question = Question.query.filter(Question.id == question_id).one_or_none()
     
-    except:
-      abort(422)
+    # Check if question exist
+    if question is None:
+      abort(404)
 
+    question.delete()
+    questions = Question.query.order_by(Question.id).all()
+    formatted_questions = [question.format() for question in questions]
+
+    page = request.args.get('page', 1, type=int)
+    start = (page - 1) * 10
+    end = start + 10
+
+    current_questions = formatted_questions[start:end]
+
+    return jsonify({
+       'deleted_question': question_id,
+       'questions': current_questions,
+       'success': True,
+       'total_question': len(questions),
+    })
+      
   '''
   @TODO: 
   Create an endpoint to POST a new question, 
