@@ -86,6 +86,15 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['total_questions'])
         self.assertTrue(len(data['questions']))
 
+    def test_422_invalid_create_question_post(self):
+        response = self.client().post('/questions/100', json=self.new_question)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 405)
+        self.assertEqual(data['message'], "Method Not Allowed")
+
     def test_delete_question(self):
         last_question = Question.query.order_by(Question.id.desc()).first()
         test_url = '/questions/%s' % last_question.id
