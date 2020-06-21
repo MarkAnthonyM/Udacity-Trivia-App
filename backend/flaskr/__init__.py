@@ -101,13 +101,7 @@ def create_app(test_config=None):
 
     question.delete()
     questions = Question.query.order_by(Question.id).all()
-    formatted_questions = [question.format() for question in questions]
-
-    page = request.args.get('page', 1, type=int)
-    start = (page - 1) * 10
-    end = start + 10
-
-    current_questions = formatted_questions[start:end]
+    current_questions = process_questions(request, questions)
 
     return jsonify({
        'deleted_question': question_id,
