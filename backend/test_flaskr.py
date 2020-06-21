@@ -82,6 +82,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(data['questions']))
         self.assertIsNone(question)
 
+    def test_delete_nonexistant_question(self):
+        response = self.client().delete('/questions/13')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "Resource Not Foound")
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
