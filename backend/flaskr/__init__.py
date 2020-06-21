@@ -91,7 +91,7 @@ def create_app(test_config=None):
       
       # Check if question exist
       if question is None:
-        abort(422)
+        abort(404)
 
       question.delete()
       questions = Question.query.order_by(Question.id).all()
@@ -111,7 +111,7 @@ def create_app(test_config=None):
       })
     
     except:
-      abort(404)
+      abort(422)
 
   '''
   @TODO: 
