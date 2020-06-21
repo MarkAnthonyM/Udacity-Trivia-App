@@ -66,10 +66,7 @@ def create_app(test_config=None):
     
     # Query questions table and format return
     questions = Question.query.all()
-    formatted_questions = [question.format() for question in questions]
-    start = (page - 1) * 10
-    end = start + 10
-    current_questions = formatted_questions[start:end]
+    current_questions = process_questions(request, questions)
 
     # Return 404 if page query is invalid value
     if not current_questions:
