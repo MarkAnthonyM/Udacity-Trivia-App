@@ -24,6 +24,14 @@ class TriviaTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
+
+        self.new_question = {
+            'id': 13,
+            'answer': "Lake Victoria",
+            'category': 3,
+            'difficulty': 2,
+            'question': "What is the largest lake in Africa?",
+        }
     
     def tearDown(self):
         """Executed after reach test"""
@@ -69,6 +77,16 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Resource Not Found")
 
+    def test_create_question(self):
+        response = self.client().post('/questions', json=self.new_question)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['created_question'])
+        self.assertTrue(len(data['total_questions']))
+        self.assertTrue(len(data['questions']))
+
     def test_delete_question(self):
         response = self.client().delete('/questions/13')
         data = json.loads(response.data)
@@ -83,7 +101,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertIsNone(question)
 
     def test_delete_nonexistant_question(self):
-        response = self.client().delete('/questions/13')
+        response = self.client().delete('/questions/1')
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
