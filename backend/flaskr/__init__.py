@@ -119,6 +119,34 @@ def create_app(test_config=None):
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.  
   '''
+  @app.route('/questions', methods=['POST'])
+  def create_question():
+    # Store trivia question data
+    body = request.get_json()
+
+    try:
+      # Create question object
+      question = Question(
+        question=body['question'],
+        answer=body['answer'],
+        category=body['category'],
+        difficulty=body['difficulty']
+      )
+
+      question.insert()
+
+      questions = Question.query.order_by(Question.id).all()
+      current_questions = process_questions(request, questions)
+
+      return jsonify({
+        'created_question': question.id,
+        'questions': current_questions,
+        'success': True,
+        'total_questions': len(questions)
+      })
+
+    except:
+      abort(422)
 
   '''
   @TODO: 
