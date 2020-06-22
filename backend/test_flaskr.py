@@ -31,6 +31,12 @@ class TriviaTestCase(unittest.TestCase):
             'difficulty': 2,
             'question': "What is the largest lake in Africa?",
         }
+
+        self.incomplete_question = {
+            'category': 1,
+            'difficulty': 2,
+            'question': "What is the speed of light?"
+        }
     
     def tearDown(self):
         """Executed after reach test"""
@@ -88,6 +94,15 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_405_invalid_create_question_post(self):
         response = self.client().post('/questions/100', json=self.new_question)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 405)
+        self.assertEqual(data['message'], "Method Not Allowed")
+
+    def test_405_incomplete_create_question_post(self):
+        response = self.client().post('/questions', json=self.incomplete_question)
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 405)
