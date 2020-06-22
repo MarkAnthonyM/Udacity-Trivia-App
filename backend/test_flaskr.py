@@ -33,6 +33,7 @@ class TriviaTestCase(unittest.TestCase):
         }
 
         self.incomplete_question = {
+            'answer': "",
             'category': 1,
             'difficulty': 2,
             'question': "What is the speed of light?"
