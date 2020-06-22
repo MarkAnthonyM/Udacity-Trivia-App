@@ -157,6 +157,11 @@ def create_app(test_config=None):
   '''
   @app.route('/categories/<int:category_id>/questions')
   def get_category_questions(category_id):
+    # Check for valid category id
+    categories = Category.query.all()
+    if len(categories) < category_id:
+      abort(404)
+      
     # Query database and return questions by category id
     category_questions = Question.query.filter(Question.category == category_id).all()
     
