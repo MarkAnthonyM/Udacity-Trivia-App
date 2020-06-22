@@ -93,6 +93,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['questions'])
         self.assertTrue(data['total_questions'])
 
+    def test_404_get_category_questions_with_invalid_id(self):
+        response = self.client().get('/categories/9/questions')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "Resource Not Found")
+
     def test_create_question(self):
         response = self.client().post('/questions', json=self.new_question)
         data = json.loads(response.data)
