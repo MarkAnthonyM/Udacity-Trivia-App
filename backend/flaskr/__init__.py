@@ -118,6 +118,10 @@ def create_app(test_config=None):
     # Store trivia question data
     body = request.get_json()
 
+    # Check for required field data
+    if len(body['answer']) == 0 or len(body['question']) == 0:
+      abort(405)
+
     try:
       # Create question object
       question = Question(
