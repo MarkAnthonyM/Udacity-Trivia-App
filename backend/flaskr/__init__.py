@@ -121,6 +121,7 @@ def create_app(test_config=None):
       
 
     try:
+      # Query database using search string
       if search_key:
         search_result = Question.query.order_by(Question.id).filter(Question.question.ilike('%{}%'.format(search_key))).all()
         current_questions = process_questions(request, search_result)
