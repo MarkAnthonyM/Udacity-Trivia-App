@@ -108,31 +108,51 @@ def create_app(test_config=None):
     # Store trivia question data
     body = request.get_json()
 
-    # Check for required field data
-    if len(body['answer']) == 0 or len(body['question']) == 0:
-      abort(405)
+    # Store json data if posted
+    answer_key = body.get('answer', None)
+    question_key = body.get('question', None)
+    search_key = body.get('searchTerm', None)
+
+    # Check if key variable is populated with post data
+    if question_key:
+      # Check for required field data
+      if len(body['answer']) == 0 or len(body['question']) == 0:
+        abort(405)
+      
 
     try:
-      # Create question object
-      question = Question(
-        question=body['question'],
-        answer=body['answer'],
-        category=body['category'],
-        difficulty=body['difficulty']
-      )
+      if search_key:
+        search_result = Question.query.order_by(Question.id).filter(Question.question.ilike('%{}%'.format(search_key))).all()
+        current_questions = process_questions(request, search_result)
 
-      question.insert()
+        return jsonify({
+          'success': True,
+          'questions': current_questions,
+          'total_questions': len(search_result),
+          'current_category': 1,
+        })
 
-      questions = Question.query.order_by(Question.id).all()
-      current_questions = process_questions(request, questions)
+      else:
+        # Create question object
+        question = Question(
+          question=body['question'],
+          answer=body['answer'],
+          category=body['category'],
+          difficulty=body['difficulty']
+        )
 
-      return jsonify({
-        'created_question': question.id,
-        'questions': current_questions,
-        'success': True,
-        'total_questions': len(questions)
-      })
+        question.insert()
 
+        questions = Question.query.order_by(Question.id).all()
+        current_questions = process_questions(request, questions)
+
+        return jsonify({
+          'created_question': question.id,
+          'questions': current_questions,
+          'success': True,
+          'total_questions': len(questions)
+        })
+        
     except:
       abort(422)
 
@@ -157,11 +177,11 @@ def create_app(test_config=None):
   '''
   @app.route('/categories/<int:category_id>/questions')
   def get_category_questions(category_id):
-    # Check for valid category id
+    # Check for valid category id request
     categories = Category.query.all()
     if len(categories) < category_id:
       abort(404)
-      
+
     # Query database and return questions by category id
     category_questions = Question.query.filter(Question.category == category_id).all()
     
