@@ -56,6 +56,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['total_categories'])
         self.assertTrue(len(data['categories']))
 
+    # Test with an empty database
     # def test_404_get_categories(self):
     #     response = self.client().get('/categories')
     #     data = json.loads(response.data)
