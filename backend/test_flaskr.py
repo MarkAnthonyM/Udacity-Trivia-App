@@ -110,6 +110,15 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['questions'])
         self.assertTrue(data['total_questions'])
 
+    def test_get_questions_by_search_without_results(self):
+        response = self.client().post('/questions', json={'searchTerm': 'fudge'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(len(data['questions']), 0)
+        self.assertEqual(data['total_questions'], 0)
+
     def test_create_question(self):
         response = self.client().post('/questions', json=self.new_question)
         data = json.loads(response.data)
