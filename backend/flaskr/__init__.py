@@ -40,6 +40,10 @@ def create_app(test_config=None):
 
   @app.route('/categories')
   def get_categories():
+    '''
+    Endpoint sends GET request and returns json payload containing all categories on
+    success or returns error information payload on failure
+    '''
     # Query category data and return as json payload
     categories = Category.query.all()
 
@@ -57,6 +61,10 @@ def create_app(test_config=None):
 
   @app.route('/questions')
   def get_paginated_questions():
+    '''
+    Endpoint sends GET request and returns payload containing paginated questions on
+    success or returns error information payload on failure
+    '''
     # Query question data and paginate/format
     page = request.args.get('page', 1, type=int)
 
@@ -86,6 +94,10 @@ def create_app(test_config=None):
 
   @app.route('/questions/<int:question_id>', methods=['DELETE'])
   def delete_question(question_id):
+    '''
+    Endpoint sends DELETE command and returns question deletion conformation payload 
+    on success or error information payload on failure
+    '''
     question = Question.query.filter(Question.id == question_id).one_or_none()
     
     # Check if question exist
@@ -105,6 +117,10 @@ def create_app(test_config=None):
       
   @app.route('/questions', methods=['POST'])
   def create_question():
+    '''
+    Endpoint sends POST command for question creation.
+    Returns conformation payload on success or error information payload on failure
+    '''
     # Store trivia question data
     body = request.get_json()
 
@@ -159,6 +175,10 @@ def create_app(test_config=None):
 
   @app.route('/categories/<int:category_id>/questions')
   def get_category_questions(category_id):
+    '''
+    Endpoint sends GET request for questions from specific category.
+    Returns conformation payload on success or error information payload on failure
+    '''
     # Check for valid category id request
     categories = Category.query.all()
     if len(categories) < category_id:
@@ -180,7 +200,7 @@ def create_app(test_config=None):
   @app.route('/quizzes', methods=['POST'])
   def get_quiz_questions():
     '''
-    Send a post requests for a list of quiz questions based on choosen category
+    Endpoint sends a POST requests for a list of quiz questions based on choosen category
     '''
 
     # Return json object containing quiz category and previous questions list
