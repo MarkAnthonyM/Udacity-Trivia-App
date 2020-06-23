@@ -190,7 +190,7 @@ def create_app(test_config=None):
   and shown whether they were correct or not. 
   '''
   @app.route('/quizzes', methods=['POST'])
-  def get_quiz_questjions():
+  def get_quiz_questions():
     '''
     Send a post requests for a list of quiz questions based on choosen category
     '''
