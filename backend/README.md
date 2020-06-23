@@ -130,9 +130,9 @@ POST /quizzes
     * Deletes question of given id from database
     * returns on success:
         1. Id of deleted question
-        2. List of questions, paginated in groups of 10
-        3. Success key with Bool value
-        4. Total number of questions after deletion operation
+        1. List of questions, paginated in groups of 10
+        1. Success key with Bool value
+        1. Total number of questions after deletion operation
     * Sample: curl -X http://127.0.0.1:5000/questions/1
 ```
 {
@@ -162,6 +162,30 @@ POST /quizzes
   ],
   "success": true,
   "total_questions": 18
+}
+```
+
+#### GET /categories
+* General:
+    * Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string if the category
+    * Request Arguments: None
+    * Returns an JSON object on success containing the following:
+        1. Success status
+        1. A dictionary containing all categories
+        1. Total number of categories
+    * Sample: curl http://127.0.0.1:5000/categories
+```
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true,
+  "total_categories": 6
 }
 ```
 
