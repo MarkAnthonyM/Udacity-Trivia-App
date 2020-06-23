@@ -200,10 +200,14 @@ def create_app(test_config=None):
 
     quiz_category = body.get('quiz_category')
     previous_questions = body['previous_questions']
-
-    # Query database for questions based on selected category and store data
-    category_questions = Question.query.filter(Question.category == quiz_category['id']).all()
-    current_questions = [question.format() for question in category_questions]
+    
+    if quiz_category['id'] == 0:
+      category_questions = Question.query.all()
+      current_questions = [question.format() for question in category_questions]
+    else:
+      # Query database for questions based on selected category and store data
+      category_questions = Question.query.filter(Question.category == quiz_category['id']).all()
+      current_questions = [question.format() for question in category_questions]
 
     # randomize questions
     random.shuffle(current_questions)
@@ -229,11 +233,6 @@ def create_app(test_config=None):
       'question': current_questions[0]
     })
 
-  '''
-  @TODO: 
-  Create error handlers for all expected errors 
-  including 404 and 422. 
-  '''
   @app.errorhandler(404)
   def not_found(error):
     return jsonify({
