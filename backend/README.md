@@ -88,6 +88,79 @@ GET '/categories'
 '6' : "Sports"}
 
 ```
+## API reference
+
+### Error Handling
+
+Errors are returned as JSON objects in the format that follows:
+```
+{
+    "success": False,
+    "error": 404,
+    "message": "Resource Not Found"
+}
+
+The error types handled are as follows:
+
+* 404: Not Found
+* 405: Method Not Allowed
+* 422: Unprocessable Entity
+* 500: Internal Server Error
+```
+
+### All Endpoints
+
+DELETE /questions/{question_id}
+
+GET /categories
+GET /questions
+GET /categories/{category_id}/questions
+
+POST /questions
+POST /quizzes
+
+### DELETE Enpoints
+
+#### DELETE /questions/{question_id}
+
+* General:
+    * Deletes question of given id from database
+    * returns on success:
+        1. Id of deleted question
+        2. List of questions, paginated in groups of 10
+        3. Success key with Bool value
+        4. Total number of questions after deletion operation
+    * Sample: curl -X http://127.0.0.1:5000/questions/1
+```
+{
+  "deleted_question": 33,
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    },
+    {
+      "answer": "One",
+      "category": 2,
+      "difficulty": 4,
+      "id": 18,
+      "question": "How many paintings did Van Gogh sell in his lifetime?"
+    }
+  ],
+  "success": true,
+  "total_questions": 18
+}
+```
 
 
 ## Testing
