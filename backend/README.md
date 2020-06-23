@@ -113,10 +113,13 @@ The error types handled are as follows:
 DELETE /questions/{question_id}
 
 GET /categories
+
 GET /questions
+
 GET /categories/{category_id}/questions
 
 POST /questions
+
 POST /quizzes
 
 ### DELETE Enpoints
