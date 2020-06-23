@@ -201,6 +201,7 @@ def create_app(test_config=None):
     quiz_category = body.get('quiz_category')
     previous_questions = body['previous_questions']
     
+    # Check for all categories
     if quiz_category['id'] == 0:
       category_questions = Question.query.all()
       current_questions = [question.format() for question in category_questions]
