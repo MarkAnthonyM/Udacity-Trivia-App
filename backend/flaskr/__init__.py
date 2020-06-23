@@ -219,13 +219,13 @@ def create_app(test_config=None):
     if len(current_questions) == 0:
       return jsonify({
         'success': True,
-        'current_category': body['quiz_category']['type'],
+        'current_category': quiz_category['type'],
         'question': False,
       })
 
     return jsonify({
       'success': True,
-      'current_category': body['quiz_category']['type'],
+      'current_category': quiz_category['type'],
       'question': current_questions[0]
     })
 
